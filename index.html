@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Gem Cats</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game-shell">
+        <header>
+            <h1>Gem Cats</h1>
+            <p>Find the diamonds without disturbing the Pushka bombs.</p>
+        </header>
+
+        <section class="controls" aria-label="Game controls">
+            <label for="difficulty">Difficulty</label>
+            <select id="difficulty">
+                <option value="kitten">Kitten — 10 × 10, 15 cats</option>
+                <option value="housecat">House Cat — 14 × 14, 35 cats</option>
+                <option value="bengal">Bengal Mode — 18 × 18, 60 cats</option>
+            </select>
+            <button id="newGameButton" type="button">New Game</button>
+        </section>
+
+        <section class="status-bar" aria-label="Game status">
+            <div>
+                <span class="status-label">Cats</span>
+                <strong id="mineCount">10</strong>
+            </div>
+            <div>
+                <span class="status-label">Piotr Flags</span>
+                <strong id="flagCount">0</strong>
+            </div>
+            <div>
+                <span class="status-label">Time</span>
+                <strong id="timer">0</strong>
+            </div>
+        </section>
+
+        <p id="message" class="message" aria-live="polite">
+            Tap a square to reveal it. Double-click to place a Piotr flag.
+        </p>
+
+        <div class="tray-wrapper">
+            <section
+                id="board"
+                class="board"
+                aria-label="Cat Minesweeper board">
+            </section>
+        </div>
+
+        <section class="legend" aria-label="Game legend">
+            <div>
+                <img
+                    src="images/pushka.jpg"
+                    alt="Pushka"
+                    class="legend-icon">
+                Hidden Pushka bombs
+            </div>
+            <div>
+                <img src="images/piotr-flag.png"
+                    alt="Piotr holding a flag"
+                    class="legend-icon">
+                Flag Piotr 
+            </div>
+        </section>
+    </main>
+
+    <script src="game.js"></script>
+</body>
+</html>
