@@ -28,7 +28,7 @@ body {
     color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
     overscroll-behavior: none;
-    touch-action: manipulation;
+    touch-action: auto;
 }
 
 .game-shell {
