@@ -1,0 +1,589 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --tile-size: min(7vw, 68px);
+
+    --page-bg: #fff0f6;
+    --panel-bg: #fffafd;
+
+    --tile-bg: #f8a9cb;
+    --tile-hover: #ffbeda;
+    --tile-revealed: #fff1f7;
+
+    --text: #d9b815;
+    --accent: #f519f5;
+    --border: #ea18ed;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-image: url("images/velvet-background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+}
+
+.game-shell {
+    width: min(96%, 1100px);
+    margin: 0 auto;
+    padding: 1rem;
+    text-align: center;
+
+    background-image: 
+    linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,.25)),
+        url("images/velvet.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+
+    overflow: visible;
+}
+
+.tray-wrapper {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    overflow: visible;
+}
+
+h1 {
+    margin-bottom: 0.25rem;
+}
+
+header p {
+    margin-top: 0;
+}
+
+.controls {
+    position: relative;
+    overflow: hidden;
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+
+    border: 3px solid #e7c65a;
+    border-radius: 0;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.06)
+        );
+
+    box-shadow:
+    0 0 0 2px #8f6a15,
+    0 8px 16px rgba(0,0,0,.45),
+    inset 0 2px 4px rgba(255,255,255,.55);
+
+    backdrop-filter: blur(6px);
+}
+
+.controls::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 45%;
+    height: 100%;
+
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.25),
+        rgba(255,255,255,0) 70%
+    );
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        40% 100%,
+        0 100%
+    );
+
+    pointer-events: none;
+}
+
+.controls::after {
+    content: "✦";
+
+    position: absolute;
+    top: 8px;
+    right: 12px;
+
+    color: #fff7d1;
+    font-size: 1rem;
+    line-height: 1;
+
+    text-shadow:
+        0 0 8px white,
+        0 0 14px #ffe98a,
+        0 0 20px #fff4b0;
+
+    pointer-events: none;
+}
+
+select,
+.controls button {
+    position: relative;
+    z-index: 1;
+    min-height: 46px;
+    border: 3px solid #e7c65a;
+
+    padding: 0.55rem 1rem;
+
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+
+    box-shadow:
+    0 0 0 2px #8f6a15,
+    0 8px 16px rgba(0,0,0,.45),
+    inset 0 2px 4px rgba(255,255,255,.55);
+}
+
+select {
+    background:
+        linear-gradient(
+            145deg,
+            #9e1d5e,
+            #5f0d39
+        );
+
+    cursor: pointer;
+}
+
+select option {
+    background: #5f0d39;
+    color: white;
+}
+
+.controls button {
+    cursor: pointer;
+
+    background:
+    linear-gradient(
+        173deg,
+        #fffdfd 0%,
+        #ffd3e5 18%,
+        #f18ab4 42%,
+        #bf2f70 70%,
+        #771342 100%
+    );
+
+    box-shadow:
+    0 0 0 2px #8f6a15,
+    0 8px 16px rgba(0,0,0,.45),
+    inset 0 2px 4px rgba(255,255,255,.55);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        filter 0.15s ease;
+}
+
+.controls button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+
+    box-shadow:
+    0 0 0 2px #8f6a15,
+    0 8px 16px rgba(0,0,0,.45),
+    inset 0 2px 4px rgba(255,255,255,.55);
+}
+
+.controls button:active {
+    transform: translateY(4px);
+
+    box-shadow:
+    0 0 0 2px #8f6a15,
+    0 8px 16px rgba(0,0,0,.45),
+    inset 0 2px 4px rgba(255,255,255,.55);
+}
+
+select:focus-visible,
+.controls button:focus-visible {
+    outline: 4px solid white;
+    outline-offset: 4px;
+}
+
+.status-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+    margin: 1rem 0;
+}
+
+.status-bar > div {
+    position: relative;
+    overflow: hidden;
+
+    padding: 0.75rem 0.9rem;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.28),
+            rgba(255, 192, 203, 0.1)
+        );
+
+    border: 3px solid #e7c65a;
+
+    color: white;
+    text-align: center;
+
+    box-shadow:
+    0 0 0 2px #8f6a15,
+    0 8px 16px rgba(0,0,0,.45),
+    inset 0 2px 4px rgba(255,255,255,.55);
+
+    backdrop-filter: blur(5px);
+}
+
+.status-bar > div::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    height: 100%;
+
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.25),
+        rgba(255,255,255,0) 70%
+    );
+
+    clip-path: polygon(0 0, 100% 0, 40% 100%, 0 100%);
+    pointer-events: none;
+}
+
+.status-bar > div::after {
+    content: "✦";
+
+    position: absolute;
+    top: 6px;
+    right: 10px;
+
+    color: #fff7d1;
+    font-size: .9rem;
+
+    text-shadow:
+        0 0 8px white,
+        0 0 14px #ffe98a;
+}
+
+.status-label {
+    position: relative;
+    display: block;
+
+    margin-bottom: 0.15rem;
+
+    font-size: 0.76rem;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.status-bar span:not(.status-label) {
+    position: relative;
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+.message {
+    min-height: 1.5rem;
+    margin-top: 0.75rem;
+
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.65);
+}
+
+.board {
+    --tile-size: 45px;
+
+    position: relative;
+
+    display: grid;
+    gap: 1px;
+
+    width: max-content;
+    margin: 0.75rem 0;
+
+    padding: 90px 190px;
+
+    background-color: transparent;
+    background-image: url("images/gold-tray.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 135% 135%;
+
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+    overflow: visible;
+}
+
+.board::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -90px;
+    right: -90px;
+
+    z-index: 0;
+    pointer-events: none;
+
+    background-image: url("images/gold-tray.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.tile {
+    position: relative;
+    z-index: 1;
+
+    width: var(--tile-size);
+    height: var(--tile-size);
+    min-width: 0;
+    min-height: 0;
+
+    padding: 0;
+    overflow: hidden;
+
+    border: none;
+    border-radius: 0;
+
+    background-color: transparent;
+    background-image: url("images/pink-gem.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 98%;
+
+    color: #ffffff;
+    text-shadow:
+        0 1px 2px rgba(38, 0, 24, 0.95),
+        0 0 3px rgba(38, 0, 24, 0.75);
+
+    font-size: clamp(0.9rem, 3vw, 1.25rem);
+    font-weight: 800;
+
+    display: grid;
+    place-items: center;
+
+    cursor: pointer;
+
+    filter: drop-shadow(0 4px 4px rgba(58, 5, 35, 0.4));
+
+    transition:
+        transform 0.12s ease,
+        filter 0.12s ease;
+}
+
+.tile:hover {
+    transform: translateY(-2px) scale(1.04);
+    filter:
+        brightness(1.08)
+        drop-shadow(0 6px 5px rgba(58, 5, 35, 0.45));
+}
+
+.tile:active {
+    transform: translateY(1px) scale(0.97);
+    filter:
+        brightness(0.94)
+        drop-shadow(0 2px 2px rgba(58, 5, 35, 0.35));
+}
+
+.tile.revealed {
+    clip-path: none;
+    border-radius: 3px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff8fc,
+            #f2ccdf
+        );
+
+    border: 3px solid #e7c65a;
+
+    box-shadow:
+    0 0 0 2px #8f6a15,
+    0 8px 16px rgba(0,0,0,.45),
+    inset 0 2px 4px rgba(255,255,255,.55);
+
+    color: #5c173a;
+    text-shadow: none;
+
+    transform: none;
+    filter: none;
+    cursor: default;
+}
+
+.tile.revealed:hover {
+    transform: none;
+    filter: none;
+}
+
+.tile.mine {
+    background:
+        radial-gradient(
+            circle at 35% 25%,
+            #ffe9f4 0%,
+            #ff84ba 38%,
+            #c52e78 75%,
+            #721c4c 100%
+        );
+
+    border-color: #781c4e;
+
+    box-shadow:
+        inset 3px 3px 5px rgba(255, 255, 255, 0.6),
+        inset -4px -4px 6px rgba(76, 10, 46, 0.5),
+        0 3px 7px rgba(86, 31, 67, 0.4);
+}
+
+.tile.flagged {
+    background:
+        linear-gradient(
+            130deg,
+            transparent 0%,
+            transparent 19%,
+            rgba(255, 255, 255, 0.95) 20%,
+            rgba(255, 255, 255, 0.2) 27%,
+            transparent 34%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(255, 251, 214, 0.95) 0%,
+            rgba(255, 217, 90, 0.8) 24%,
+            transparent 25%
+        ),
+        linear-gradient(
+            215deg,
+            rgba(255, 233, 135, 0.8) 0%,
+            rgba(187, 119, 12, 0.85) 28%,
+            transparent 29%
+        ),
+        linear-gradient(
+            315deg,
+            rgba(83, 44, 0, 0.95) 0%,
+            rgba(165, 102, 7, 0.9) 30%,
+            transparent 31%
+        ),
+        radial-gradient(
+            circle at 45% 40%,
+            #fff8b5 0%,
+            #ffd34f 28%,
+            #c9850c 58%,
+            #6b3a00 100%
+        );
+
+    border-color: #815000;
+}
+
+@media (max-width: 600px) {
+    .controls {
+        gap: 0.6rem;
+        padding: 0.8rem;
+    }
+
+    select,
+    .controls button {
+        min-height: 44px;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .status-bar {
+        gap: 0.45rem;
+    }
+
+    .status-bar > div {
+        padding: 0.65rem 0.45rem;
+    }
+
+    .status-label {
+        font-size: 0.65rem;
+    }
+
+    .status-bar span:not(.status-label) {
+        font-size: 1rem;
+    }
+}
+
+.legend-icon {
+    width: 64px;
+    height: 64px;
+
+    object-fit: cover;
+
+    margin-right: 10px;
+    border-radius: 6px;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    min-width: 220px;
+}
+
+.cat-bomb-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.empty-tile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* or contain if you don't want cropping */
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.flag-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.win-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
