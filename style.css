@@ -49,10 +49,15 @@ body {
 
 .tray-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 
     width: 100%;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 0.5rem 0;
+
+    -webkit-overflow-scrolling: touch;
 }
 
 h1 {
@@ -587,3 +592,73 @@ select:focus-visible,
     object-position: center top;
     display: block;
 }
+
+@media (min-width: 900px) {
+    .tray-wrapper {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 700px) {
+    .game-shell {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0;
+    }
+
+    .board {
+        --tile-size: 28px;
+
+        margin: 0.5rem auto;
+        padding: 45px 60px;
+
+        background-size: 120% 120%;
+    }
+
+    .board::before {
+        left: -25px;
+        right: -25px;
+    }
+}
+
+@media (max-width: 420px) {
+    .board {
+        --tile-size: 25px;
+        padding: 38px 45px;
+    }
+
+    .board::before {
+        left: -18px;
+        right: -18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .controls {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+        padding: 0.75rem;
+    }
+
+    select,
+    .controls button {
+        width: 100%;
+        min-height: 48px;
+    }
+
+    .status-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .status-bar > div {
+        min-height: 58px;
+    }
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
